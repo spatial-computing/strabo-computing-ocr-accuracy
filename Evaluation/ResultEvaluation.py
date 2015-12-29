@@ -66,7 +66,7 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
 
     # Find the correct and incorrect bounding boxes.
     for k in range(0, len(result_rect_list)):
-        # print("%d" % k)
+        print("%d" % k)
         rect = result_rect_list[k]
         result_area = rect.get_area()
 
@@ -127,7 +127,7 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
 
     # print("\nGround truth")
     for i in range(0, len(gt_list), 1):
-        gt_rectc_list = gt_list[i]['rects']
+        gt_rect_list = gt_list[i]['rects']
         for j in range(0, len(gt_rect_list), 1):
             if group_para == int(gt_list[i]['rects'][j].groupId) or group_para == 0:
                 gt_rect = gt_rect_list[j]
