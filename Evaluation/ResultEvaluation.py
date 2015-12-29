@@ -119,7 +119,7 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
         for i in range(0, len(r.text)):
             if group_para in r.textGroup[i] or group_para == 0:
                 if r.textFound[i]:
-                    # print(r.text[i])
+                    print(r.text[i])
                     correct_result_characters += 1
                 total_extracted_characters += 1
             elif len(r.textGroup[i]) == 0:
@@ -131,7 +131,7 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
         for j in range(0, len(gt_rect_list), 1):
             if group_para == int(gt_list[i]['rects'][j].groupId) or group_para == 0:
                 gt_rect = gt_rect_list[j]
-                print(gt_rect.text)
+                # print(gt_rect.text)
                 for k in gt_rect.textFound:
                     if k:
                         correct_gt_characters += 1

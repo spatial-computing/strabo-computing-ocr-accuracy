@@ -55,7 +55,7 @@ def get_ground_truth_list(gt_obj, scale_w=1, scale_h=1):
         if 'label' in feature['properties']:
             feature['properties']['text'] = feature['properties'].pop('label')
         total_text += len(feature['properties']['text'])
-    print("totaol_text: %d" % total_text)
+    # print("totaol_text: %d" % total_text)
 
     visited_feature_set = list()
     for feature in gt_obj['features']:

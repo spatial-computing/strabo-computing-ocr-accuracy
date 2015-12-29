@@ -58,11 +58,11 @@ if __name__ == '__main__':
     else:
         groundTruthFile = sys.argv[1]
         resultFile = sys.argv[2]
-        group_para = sys.argv[3]
+        group_para = int(sys.argv[3])
         # TODO: Add the group parameters.
         # groupID = sys[3]
         result_obj = GeoJsonReader.load_json_file(resultFile)
         gt_obj = GeoJsonReader.load_json_file(groundTruthFile)
-        overlap_json, non_overlap_json = evaluate_result(gt_obj, result_obj, group_para)
-        GeoJsonWriter.output_json_file(overlap_json, 'eval_overlap' + resultFile.split('/')[-1])
-        GeoJsonWriter.output_json_file(non_overlap_json, 'eval_nonoverlap' + resultFile.split('/')[-1], False)
+        overlap_json, non_overlap_json, precision_list, recall_list, extracted_num_list, gt_num_listc = evaluate_result(gt_obj, result_obj, group_para=group_para)
+        # GeoJsonWriter.output_json_file(overlap_json, 'eval_overlap' + resultFile.split('/')[-1])
+        # GeoJsonWriter.output_json_file(non_overlap_json, 'eval_nonoverlap' + resultFile.split('/')[-1], False)
