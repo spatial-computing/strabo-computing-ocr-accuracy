@@ -1,0 +1,10 @@
+.idea/*
+log.txt
+.tags
+.tags_sorted_by_file
+tags
+*.json
+*.pyc
+*.csv
+*.geojson
+*.txt
