@@ -16,7 +16,7 @@ def load_json_file(filename):
     plain_text = plain_text.replace(',]', ']')
     plain_text = plain_text.replace('}]}]}', '}]}')
     plain_text = " ".join(plain_text.split("\n"))
-    # plain_text = plain_text.replace(" ", "")
+    plain_text = plain_text.replace("\\", "")
 
     data = json.loads(plain_text)
     return data
@@ -31,7 +31,7 @@ def get_result_rectangles(geojson_obj):
             if 'properties' in feature and 'text' in feature['properties']:
                 text = feature['properties']['text']
             elif 'NameAfterDictionary' in feature:
-                text = feature['NameBeforeDictionary']
+                text = feature['NameAfterDictionary']
             else:
                 print('Invalid file format.')
                 quit()

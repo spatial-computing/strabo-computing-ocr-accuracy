@@ -2,6 +2,7 @@ from Geometry import Point
 from Geometry import Line
 from Geometry import Polygon
 from Geometry import GeoOperations
+import math
 
 __author__ = 'Tan'
 
@@ -21,6 +22,20 @@ class GeoRectangle(Polygon.Polygon):
             points.append(point)
 
         Polygon.Polygon.__init__(self, points)
+
+
+    def is_the_same_rect(self, rect2):
+        for point in self.points:
+            found_match_point = False
+            for point2 in rect2.points:
+                if math.fabs(point.x - point2.x) < 2 and math.fabs(point.y - point2.y) < 3:
+                    found_match_point = True
+
+            if not found_match_point:
+                return False
+
+        return True
+
 
     def is_point_in_the_rectangle(self, point):
         for i in range(1, 5, 1):
@@ -104,6 +119,9 @@ class GeoRectangle(Polygon.Polygon):
         for p1_line in self.lines:
             for p2_line in polygon2.lines:
                 point = p1_line.find_intersection_point(p2_line)
+                if (point.x != -1 or point.y != -1) and (point not in intersection_points):
+                    intersection_points.append(point)
+                point = p2_line.find_intersection_point(p1_line)
                 if (point.x != -1 or point.y != -1) and (point not in intersection_points):
                     intersection_points.append(point)
 

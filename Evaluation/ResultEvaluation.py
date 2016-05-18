@@ -1,6 +1,7 @@
 from Evaluation import GeoJsonWriter, WordEvaluation
 from Geometry.Polygon import Polygon
 from Evaluation import MatchingHelper
+import copy
 
 
 __author__ = 'Tan'
@@ -21,6 +22,7 @@ def find_result_ground_truth_correspondence(gt_list, result_rect_list, area_thre
         result_area = rect.get_area()
         matching_list = []
 
+
         for i in range(0, len(gt_list), 1):
             gt_rect_list = gt_list[i]['rects']
             for j in range(0, len(gt_rect_list), 1):
@@ -35,6 +37,7 @@ def find_result_ground_truth_correspondence(gt_list, result_rect_list, area_thre
                     overlap_valid = False
 
                     if overlap_area > area_threshold * gt_area or overlap_area > area_threshold * result_area:
+
                         overlap_valid = True
                         rect.positive = True
                         gt_list[i]['found'][j] = True
@@ -66,9 +69,12 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
 
     # Find the correct and incorrect bounding boxes.
     for k in range(0, len(result_rect_list)):
-        print("%d" % k)
         rect = result_rect_list[k]
         result_area = rect.get_area()
+
+        gt_list_backup = copy.copy(gt_list)
+        result_rect_list_backup = copy.copy(result_rect_list)
+        is_invalid = False
 
         for i in range(0, len(gt_list), 1):
             gt_rect_list = gt_list[i]['rects']
@@ -84,6 +90,11 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
                     overlap_valid = False
 
                     if overlap_area >= area_threshold * gt_area or overlap_area >= area_threshold * result_area:
+                        if result_area > 5 * gt_area:
+                            is_invalid = False
+                            break
+                            # pass
+
                         overlap_valid = True
                         rect.positive = True
                         gt_list[i]['found'][j] = True
@@ -104,6 +115,13 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
 
                         new_feature = GeoJsonWriter.generate_overlap_feature(overlap_polygon, overlap_valid, tag=i)
                         overlap_json['features'].append(new_feature)
+                        rect.groundTruth.append(gt_rect.text)
+
+        if is_invalid:
+            print('Invalid roll back.')
+            gt_list = gt_list_backup
+            result_rect_list = result_rect_list_backup
+            break
 
     # Compute the precision and recall
     precision_list = []

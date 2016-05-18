@@ -1,3 +1,6 @@
+import math
+
+
 __author__ = 'Tan'
 
 
@@ -14,3 +17,9 @@ class Point:
 
     def __str__(self):
         return '[%f, %f],' % (self.x, self.y)
+
+    def get_point_dist(self, p2):
+        dx = math.fabs(self.x - p2.x)
+        dy = math.fabs(self.y - p2.y)
+
+        return math.sqrt(math.pow(dx, 2) + math.pow(dy, 2))

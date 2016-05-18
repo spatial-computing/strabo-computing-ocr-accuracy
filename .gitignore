@@ -8,3 +8,5 @@ tags
 *.csv
 *.geojson
 *.txt
+*.png
+*.xml
