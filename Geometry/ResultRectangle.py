@@ -1,10 +1,11 @@
 from Geometry import GeoRectangle
+from Geometry import GeoPolygon
 
 
 __author__ = 'Tan'
 
 
-class ResultRectangle(GeoRectangle.GeoRectangle):
+class ResultRectangle(GeoPolygon.GeoPolygon):
     def __init__(self, coordinates, text):
         self.positive = False
         self.editing = [0, 0, 0]
@@ -18,7 +19,9 @@ class ResultRectangle(GeoRectangle.GeoRectangle):
         text = text.replace("\'", "")
         text = text.replace(".", "")
 
-        GeoRectangle.GeoRectangle.__init__(self, coordinates, text)
+        # GeoRectangle.GeoRectangle.__init__(self, coordinates, text)
+        GeoPolygon.GeoPolygon.__init__(self, coordinates, text)
+
 
     def get_text_precision(self):
         correct = 0

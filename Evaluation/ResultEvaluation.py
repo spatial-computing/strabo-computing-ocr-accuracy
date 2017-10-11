@@ -69,6 +69,10 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
 
     # Find the correct and incorrect bounding boxes.
     for k in range(0, len(result_rect_list)):
+        print("Progress: {}/{}".format(k, len(result_rect_list)))
+        if k != 102:
+            continue
+
         rect = result_rect_list[k]
         result_area = rect.get_area()
 
@@ -78,9 +82,12 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
 
         for i in range(0, len(gt_list), 1):
             gt_rect_list = gt_list[i]['rects']
+
             for j in range(0, len(gt_rect_list)):
                 gt_rect = gt_rect_list[j]
                 gt_area = gt_rect.get_area()
+
+                # print("Ground Truth Area: {}".format(gt_area))
 
                 overlap_polygon = rect.get_overlap_polygon(gt_rect)
                 if overlap_polygon is None:
@@ -91,6 +98,8 @@ def evaluation_simple(result_rect_list, gt_list, area_threshold=0.7, group_para=
 
                     if overlap_area >= area_threshold * gt_area or overlap_area >= area_threshold * result_area:
                         if result_area > 5 * gt_area:
+                            print("Found Invalid: gt area: {}, result area: {}, overlap: {}".format(gt_area, result_area,
+                                                                                                    overlap_area))
                             is_invalid = False
                             break
                             # pass

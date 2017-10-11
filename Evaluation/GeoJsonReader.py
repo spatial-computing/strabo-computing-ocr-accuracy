@@ -25,11 +25,20 @@ def load_json_file(filename):
 def get_result_rectangles(geojson_obj):
     rectangle_list = []
     for feature in geojson_obj['features']:
+
+
         if 'TextNonText' in feature:
             text = feature['TextNonText']
         else:
-            if 'properties' in feature and 'text' in feature['properties']:
-                text = feature['properties']['text']
+            if 'properties' in feature:
+                if 'text' in feature['properties']:
+                    text = feature['properties']['text']
+                elif 'txt' in feature['properties']:
+                    feature['properties']['text'] = feature['properties']['txt']
+                    text = feature['properties']['text']
+                else:
+                    print('Invalid file format.')
+                    quit()
             elif 'NameAfterDictionary' in feature:
                 text = feature['NameAfterDictionary']
             else:
@@ -51,10 +60,15 @@ def get_ground_truth_list(gt_obj, scale_w=1, scale_h=1):
     gt_list = []
     total_text = 0
     for feature in gt_obj['features']:
+        # If the file use 'txt' instead of 'text'
+        if 'txt' in feature['properties']:
+            feature['properties']['text'] = feature['properties']['txt']
+
         feature['properties'] = dict((k.lower(), v) for k, v in feature['properties'].items())
         if 'label' in feature['properties']:
             feature['properties']['text'] = feature['properties'].pop('label')
         total_text += len(feature['properties']['text'])
+        # total_text += len(feature['properties']['txt'])
     # print("totaol_text: %d" % total_text)
 
     visited_feature_set = list()
